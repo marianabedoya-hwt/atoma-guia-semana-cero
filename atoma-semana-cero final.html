@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana Cero · ATOMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Montserrat:wght@600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --neural-black:#151920;
+    --byte-black:#363943;
+    --silver:#f8f8f8;
+    --platinum:#dcddde;
+    --hw-teal:#3badbc;
+    --br-blue:#71c7d2;
+    --light-cyan:#bfebef;
+    --link-blue:#10758b;
+    --speed-yellow:#f8c811;
+    --cta-orange:#e97845;
+    --white:#ffffff;
+    --ink:#151920;
+    --ink-soft:#363943;
+    --line:#e3e6e8;
+    --radius:16px;
+    --maxw:1080px;
+    --font-body:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --font-label:'Montserrat',var(--font-body);
+    --font-hand:'Permanent Marker',var(--font-body);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--font-body);color:var(--ink);background:var(--silver);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-weight:800;line-height:1.15;margin:0 0 .4em;letter-spacing:-0.01em;}
+  p{margin:0 0 1em;}
+  a{color:var(--link-blue);}
+  .eyebrow{font-family:var(--font-label);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--link-blue);margin:0 0 .6em;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+  /* HERO */
+  header.hero{background:var(--neural-black);color:var(--white);position:relative;overflow:hidden;padding:64px 0 84px;}
+  header.hero::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at center,var(--hw-teal),transparent 70%);opacity:.35;}
+  header.hero::after{content:"";position:absolute;left:-80px;bottom:-140px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at center,var(--link-blue),transparent 70%);opacity:.4;}
+  .hero .wrap{position:relative;z-index:2;}
+  .hero .eyebrow{color:var(--light-cyan);}
+  .hero-egg{font-size:2.6rem;display:inline-block;transform:translateY(6px);margin-right:.2em;}
+  .hero h1{font-size:clamp(2.4rem,6vw,4rem);margin:0;}
+  .hero h1 .week{color:var(--br-blue);}
+  .hero .lede{font-size:clamp(1.05rem,2.4vw,1.3rem);color:#e7eef0;max-width:640px;margin:.8em 0 0;font-weight:400;}
+  .mission{margin-top:32px;max-width:760px;background:rgba(191,235,239,.10);border-left:5px solid var(--hw-teal);border-radius:0 12px 12px 0;padding:20px 24px;}
+  .mission strong{color:var(--light-cyan);}
+  .mission p{margin:0;color:#eef5f6;}
+
+  /* NAV TABS */
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);}
+  .tabs-inner{max-width:var(--maxw);margin:0 auto;padding:0 12px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;}
+  .tabs-inner::-webkit-scrollbar{display:none;}
+  .tab{appearance:none;border:0;background:transparent;cursor:pointer;font-family:var(--font-body);font-size:.92rem;font-weight:700;color:var(--ink-soft);padding:18px 15px 16px;white-space:nowrap;border-bottom:3px solid transparent;transition:color .18s,border-color .18s;display:flex;align-items:center;gap:8px;}
+  .tab .tnum{font-family:var(--font-label);font-size:.7rem;font-weight:700;color:var(--platinum);transition:color .18s;}
+  .tab:hover{color:var(--ink);}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--cta-orange);}
+  .tab[aria-selected="true"] .tnum{color:var(--cta-orange);}
+  .tab:focus-visible{outline:3px solid var(--link-blue);outline-offset:-3px;border-radius:6px;}
+
+  /* PANELS */
+  main{padding:48px 0 24px;}
+  .panel{display:none;animation:fade .35s ease;}
+  .panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .section-head{margin-bottom:28px;}
+  .section-head h2{font-size:clamp(1.7rem,4vw,2.4rem);display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;}
+  .section-head .lead{color:var(--ink-soft);font-size:1.08rem;max-width:700px;}
+
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:0 1px 2px rgba(21,25,32,.04);}
+  .grid{display:grid;gap:18px;}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:780px){.grid-2{grid-template-columns:1fr;}}
+
+  /* BLOQUE 1 */
+  .resource{position:relative;border-left:5px solid var(--hw-teal);}
+  .resource.alt{border-left-color:var(--link-blue);}
+  .resource .tag{display:inline-block;font-family:var(--font-label);font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--link-blue);background:var(--light-cyan);padding:4px 10px;border-radius:999px;margin-bottom:10px;}
+  .resource h3{font-size:1.2rem;}
+  .resource .meta{font-size:.9rem;color:var(--ink-soft);}
+  .pill-link{display:inline-block;margin-top:8px;font-weight:700;text-decoration:none;color:var(--link-blue);}
+  .pill-link:hover{text-decoration:underline;}
+  .reading{margin-top:28px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
+  .reading .hand{font-family:var(--font-hand);color:var(--link-blue);font-size:1.6rem;font-weight:400;margin:0 0 .2em;}
+  .reading h4{font-size:1rem;color:var(--ink-soft);text-transform:none;margin-top:1.6em;}
+  .keypoints{display:grid;gap:14px;margin-top:20px;}
+  @media(min-width:720px){.keypoints{grid-template-columns:repeat(3,1fr);}}
+  .keypoint{background:var(--light-cyan);border-radius:12px;padding:16px 18px;}
+  .keypoint .n{font-family:var(--font-label);font-weight:700;color:var(--link-blue);font-size:.8rem;letter-spacing:.1em;}
+  .keypoint strong{display:block;margin:.2em 0;color:var(--neural-black);}
+  .keypoint span{font-size:.92rem;color:var(--byte-black);}
+  .concepts{display:grid;gap:14px;margin-top:20px;}
+  @media(min-width:720px){.concepts{grid-template-columns:repeat(2,1fr);}}
+  .concept{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px 20px;border-left:4px solid var(--br-blue);}
+  .concept .cn{font-family:var(--font-label);font-weight:700;color:var(--link-blue);font-size:.72rem;letter-spacing:.1em;}
+  .concept strong{display:block;margin:.15em 0 .2em;color:var(--neural-black);font-size:1.02rem;}
+  .concept span{font-size:.92rem;color:var(--byte-black);}
+  .takeaway{margin-top:24px;background:var(--neural-black);color:var(--light-cyan);border-radius:12px;padding:20px 24px;font-size:1.02rem;}
+  .takeaway b{color:var(--white);}
+
+  /* CLAUDE FEATURED */
+  .claude-hero{background:var(--neural-black);color:#eaf3f4;border-radius:var(--radius);padding:32px;margin-bottom:26px;position:relative;overflow:hidden;border-top:5px solid var(--cta-orange);}
+  .claude-hero::after{content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle at center,var(--hw-teal),transparent 70%);opacity:.28;}
+  .claude-hero > *{position:relative;z-index:2;}
+  .claude-hero .eyebrow{color:var(--speed-yellow);}
+  .claude-hero h3{color:var(--white);font-size:1.6rem;}
+  .claude-hero .intro{color:#dbe7e9;max-width:640px;}
+  .claude-tips{display:grid;gap:12px;margin:18px 0 0;}
+  @media(min-width:680px){.claude-tips{grid-template-columns:repeat(2,1fr);}}
+  .claude-tip{background:rgba(191,235,239,.08);border-radius:12px;padding:14px 16px;font-size:.92rem;color:#e7f1f2;}
+  .claude-tip b{color:var(--light-cyan);}
+  .claude-links{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;}
+  .claude-links a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:.9rem;color:var(--neural-black);background:var(--light-cyan);padding:9px 16px;border-radius:999px;transition:transform .12s;}
+  .claude-links a:hover{transform:translateY(-2px);}
+  .claude-links a.ghost{background:transparent;color:var(--light-cyan);border:1px solid var(--br-blue);}
+  .claude-badge{display:inline-block;margin-top:16px;font-family:var(--font-label);font-weight:700;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--neural-black);background:var(--speed-yellow);padding:5px 12px;border-radius:999px;}
+
+  /* TOOLS */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+  .chip{appearance:none;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.85rem;border:1px solid var(--line);background:var(--white);color:var(--ink-soft);padding:8px 16px;border-radius:999px;transition:all .15s;}
+  .chip:hover{border-color:var(--hw-teal);}
+  .chip[aria-pressed="true"]{background:var(--neural-black);color:var(--white);border-color:var(--neural-black);}
+  .chip:focus-visible{outline:3px solid var(--link-blue);outline-offset:2px;}
+  .tools-grid{display:grid;gap:16px;grid-template-columns:repeat(2,1fr);}
+  @media(max-width:780px){.tools-grid{grid-template-columns:1fr;}}
+  .tool{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;transition:transform .15s,box-shadow .15s,border-color .15s;}
+  .tool:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(21,25,32,.08);border-color:var(--br-blue);}
+  .tool-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .tool h3{font-size:1.12rem;margin:0;}
+  .cat-tag{font-family:var(--font-label);font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--byte-black);background:var(--platinum);padding:4px 9px;border-radius:6px;white-space:nowrap;}
+  .tool .best{font-size:.93rem;color:var(--ink-soft);margin:0;flex-grow:1;}
+  .free-badge{align-self:flex-start;font-weight:700;font-size:.8rem;color:var(--link-blue);background:var(--light-cyan);padding:5px 12px;border-radius:999px;}
+  .note-box{margin-top:26px;border:1px dashed var(--br-blue);background:#f3fbfc;border-radius:12px;padding:18px 22px;color:var(--byte-black);}
+  .note-box b{color:var(--neural-black);}
+
+  /* PROMPTING */
+  .prompt-intro{background:var(--neural-black);color:#e7f1f2;border-radius:var(--radius);padding:26px 30px;margin-bottom:26px;}
+  .prompt-intro h3{color:var(--white);font-size:1.35rem;}
+  .prompt-intro p{margin:0;color:#dbe7e9;}
+  .mov{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px;margin-bottom:20px;}
+  .mov-head{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
+  .mov-num{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--neural-black);color:var(--white);font-family:var(--font-label);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:1.05rem;}
+  .mov-head h3{margin:0;font-size:1.3rem;}
+  .mov > p{color:var(--ink-soft);}
+  .principles{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px;}
+  .principles li{padding-left:26px;position:relative;font-size:.96rem;color:var(--byte-black);}
+  .principles li::before{content:"\2192";position:absolute;left:0;color:var(--cta-orange);font-weight:700;}
+  .principles li b{color:var(--neural-black);}
+  .rtcf-note{margin-top:16px;background:var(--light-cyan);border-radius:12px;padding:16px 18px;font-size:.93rem;color:var(--byte-black);}
+  .rtcf-note b{color:var(--neural-black);}
+  .rtcf-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .rtcf-mini span{background:var(--white);border:1px solid var(--br-blue);border-radius:8px;padding:6px 12px;font-size:.85rem;font-weight:700;color:var(--link-blue);}
+  .tech-grid{display:grid;gap:14px;margin-top:16px;}
+  @media(min-width:720px){.tech-grid{grid-template-columns:repeat(2,1fr);}}
+  .tech{background:var(--silver);border:1px solid var(--line);border-radius:12px;padding:16px 18px;border-left:4px solid var(--hw-teal);}
+  .tech strong{display:block;color:var(--neural-black);margin-bottom:4px;font-size:1rem;}
+  .tech .say{display:block;margin-top:8px;font-size:.9rem;color:var(--link-blue);font-style:italic;background:var(--white);border-radius:8px;padding:8px 12px;border:1px dashed var(--br-blue);}
+  .tech.highlight{border-left-color:var(--cta-orange);background:#fffaf7;}
+  .flow{display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;margin-top:16px;}
+  .flow-step{flex:1;min-width:150px;background:var(--silver);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;}
+  .flow-step .fs-role{font-family:var(--font-label);font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--link-blue);}
+  .flow-step strong{display:block;font-size:1.02rem;color:var(--neural-black);margin:.2em 0;}
+  .flow-step span{font-size:.86rem;color:var(--ink-soft);}
+  .flow-arrow{align-self:center;color:var(--cta-orange);font-weight:800;font-size:1.4rem;}
+  @media(max-width:680px){.flow-arrow{transform:rotate(90deg);}}
+  .supports{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .supports .sup{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:.88rem;color:var(--byte-black);}
+  .supports .sup b{color:var(--neural-black);}
+
+  .compare{display:flex;flex-direction:column;gap:14px;margin-top:6px;}
+  .ba{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--white);}
+  .ba-head{width:100%;text-align:left;appearance:none;border:0;cursor:pointer;background:var(--white);padding:16px 20px;font-family:var(--font-body);font-weight:700;font-size:1rem;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .ba-head:hover{background:#fbfcfc;}
+  .ba-head:focus-visible{outline:3px solid var(--link-blue);outline-offset:-3px;}
+  .ba-head .case-n{font-family:var(--font-label);color:var(--cta-orange);font-size:.8rem;margin-right:8px;}
+  .ba-head .chev{transition:transform .25s;color:var(--ink-soft);font-size:1.1rem;}
+  .ba.open .ba-head .chev{transform:rotate(180deg);}
+  .ba-body{display:none;padding:0 20px 20px;}
+  .ba.open .ba-body{display:block;}
+  .ba-cols{display:grid;gap:14px;}
+  @media(min-width:680px){.ba-cols{grid-template-columns:1fr 1fr;}}
+  .col-before,.col-after{border-radius:12px;padding:16px 18px;font-size:.95rem;}
+  .col-before{background:var(--silver);border:1px solid var(--platinum);color:var(--byte-black);}
+  .col-after{background:var(--light-cyan);border:1px solid var(--br-blue);color:var(--neural-black);}
+  .col-label{font-family:var(--font-label);font-weight:700;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:block;}
+  .col-before .col-label{color:var(--byte-black);}
+  .col-after .col-label{color:var(--link-blue);}
+  .why{margin-top:14px;font-size:.92rem;color:var(--ink-soft);border-left:4px solid var(--cta-orange);padding-left:14px;}
+  .why b{color:var(--neural-black);}
+
+  /* BLOQUE 4 prompts */
+  .prompt-card{margin-bottom:18px;}
+  .prompt-card h3{font-size:1.12rem;display:flex;align-items:center;gap:10px;}
+  .prompt-card h3 .ico{font-size:1.3rem;}
+  .code{position:relative;background:var(--neural-black);color:var(--light-cyan);border-radius:12px;padding:20px;margin-top:6px;font-size:.95rem;line-height:1.7;}
+  .code code{font-family:var(--font-body);white-space:pre-wrap;}
+  .code .ph{color:var(--speed-yellow);font-weight:700;}
+  .copy{position:absolute;top:12px;right:12px;appearance:none;cursor:pointer;border:0;background:var(--cta-orange);color:var(--white);font-family:var(--font-body);font-weight:700;font-size:.78rem;padding:7px 13px;border-radius:8px;transition:background .15s,transform .1s;}
+  .copy:hover{background:#d8663a;}
+  .copy:active{transform:scale(.96);}
+  .copy:focus-visible{outline:3px solid var(--light-cyan);outline-offset:2px;}
+  .copy.done{background:var(--link-blue);}
+
+  /* RUTA DE APRENDIZAJE */
+  .res-grid{display:grid;gap:16px;grid-template-columns:repeat(2,1fr);}
+  @media(max-width:780px){.res-grid{grid-template-columns:1fr;}}
+  .res{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;transition:transform .15s,box-shadow .15s,border-color .15s;}
+  .res:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(21,25,32,.08);border-color:var(--br-blue);}
+  .res .sec-tag{font-family:var(--font-label);font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--byte-black);background:var(--platinum);padding:4px 9px;border-radius:6px;align-self:flex-start;}
+  .res h3{font-size:1.08rem;margin:0;}
+  .res .plat{font-size:.82rem;color:var(--link-blue);font-weight:700;margin:0;}
+  .res .why{border:0;padding:0;margin:0;font-size:.9rem;color:var(--ink-soft);}
+  .res-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .res-meta span{font-size:.74rem;padding:4px 10px;border-radius:999px;}
+  .res-meta .lang{background:var(--silver);border:1px solid var(--line);color:var(--byte-black);}
+  .res-meta .price{background:var(--light-cyan);color:var(--link-blue);font-weight:700;}
+  .res .go{margin-top:6px;font-weight:700;text-decoration:none;color:var(--link-blue);font-size:.9rem;align-self:flex-start;}
+  .res .go:hover{text-decoration:underline;}
+
+  /* CIERRE */
+  .closing-intro{background:var(--neural-black);color:#eaf3f4;border-radius:var(--radius);padding:30px 32px;margin-bottom:28px;}
+  .closing-intro h2{color:var(--white);}
+  .closing-intro .hero-egg{font-size:1.8rem;}
+  .form-guide{margin-top:4px;}
+  .fg-list{display:grid;gap:14px;}
+  @media(min-width:720px){.fg-list{grid-template-columns:repeat(2,1fr);}}
+  .fg-item{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px 20px;border-left:5px solid var(--hw-teal);}
+  .fg-item .fg-n{font-family:var(--font-label);font-weight:700;color:var(--link-blue);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;}
+  .fg-item h4{font-size:1.05rem;margin:.25em 0 .2em;}
+  .fg-item p{font-size:.92rem;color:var(--ink-soft);margin:0;}
+  .fg-item.project{border-left-color:var(--cta-orange);}
+  .formula-static{margin-top:24px;background:var(--light-cyan);border-radius:14px;padding:22px 26px;}
+  .formula-static .lbl{font-family:var(--font-label);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--link-blue);display:block;margin-bottom:8px;}
+  .formula-static .frase{font-size:1.22rem;color:var(--neural-black);font-weight:700;line-height:1.5;}
+  .formula-static .frase .s{color:var(--link-blue);}
+  .formula-static .qmk{color:var(--cta-orange);}
+  .formula-static .ex{font-size:.9rem;color:var(--byte-black);margin:12px 0 0;font-style:italic;}
+  .cta-final{margin-top:34px;text-align:center;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:40px 28px;border-top:5px solid var(--cta-orange);}
+  .cta-final .eyebrow{color:var(--cta-orange);}
+  .cta-final h3{font-size:clamp(1.4rem,3.4vw,1.9rem);}
+  .cta-final p{color:var(--ink-soft);max-width:560px;margin:0 auto 22px;}
+  .cta-actions{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .btn-cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;background:var(--cta-orange);color:var(--white);font-weight:800;font-size:1.18rem;padding:18px 38px;border-radius:14px;box-shadow:0 10px 26px rgba(233,120,69,.38);transition:transform .14s,box-shadow .14s,background .14s;animation:pulse 2.4s ease-in-out infinite;}
+  .btn-cta:hover{background:#d8663a;transform:translateY(-2px);box-shadow:0 14px 32px rgba(233,120,69,.5);}
+  .btn-cta:active{transform:translateY(0);}
+  .btn-cta:focus-visible{outline:3px solid var(--link-blue);outline-offset:3px;}
+  @keyframes pulse{0%,100%{box-shadow:0 10px 26px rgba(233,120,69,.38);}50%{box-shadow:0 10px 34px rgba(233,120,69,.62);}}
+  .cta-note{font-size:.84rem;color:var(--ink-soft);margin-top:6px;}
+  .finale{margin-top:36px;text-align:center;background:var(--neural-black);color:var(--white);border-radius:var(--radius);padding:46px 28px;position:relative;overflow:hidden;}
+  .finale::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(59,173,188,.3),transparent 55%);}
+  .finale > *{position:relative;z-index:2;}
+  .finale .morph{font-size:2.4rem;letter-spacing:.3em;margin-bottom:8px;}
+  .finale .hand{font-family:var(--font-hand);font-size:1.9rem;color:var(--br-blue);font-weight:400;line-height:1.3;margin:0 auto;max-width:640px;}
+  .finale p{color:#cdd9db;max-width:560px;margin:14px auto 0;}
+
+  footer{padding:34px 0 48px;text-align:center;color:var(--ink-soft);font-size:.86rem;}
+  footer .spark{font-family:var(--font-label);font-weight:700;letter-spacing:.08em;color:var(--link-blue);}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">HatchWorks AI &times; Atom&aacute;</p>
+    <h1><span class="hero-egg">&#129370;</span>Semana <span class="week">Cero</span></h1>
+    <p class="lede">Antes de construir, exploramos. Antes de aprender, nos hacemos preguntas.</p>
+    <div class="mission">
+      <p><strong>Tu misi&oacute;n esta semana:</strong> no convertirte en experta. Llegar a la Semana 1 con <strong>contexto, una primera intuici&oacute;n y una pregunta que de verdad quieras responder.</strong> La curiosidad es el &uacute;nico requisito.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Secciones de la Semana Cero">
+  <div class="tabs-inner" role="tablist">
+    <button class="tab" role="tab" aria-selected="true"  aria-controls="b1" id="t-b1"><span class="tnum">01</span> Fundamentos</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="b2" id="t-b2"><span class="tnum">02</span> Ecosistema</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="b3" id="t-b3"><span class="tnum">03</span> Prompting</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="b4" id="t-b4"><span class="tnum">04</span> Casos de uso</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="b5" id="t-b5"><span class="tnum">05</span> Ruta de aprendizaje</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="b6" id="t-b6"><span class="tnum">&#10022;</span> Cierre</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ BLOQUE 1 ============ -->
+  <section class="panel active" id="b1" role="tabpanel" aria-labelledby="t-b1">
+    <div class="section-head">
+      <p class="eyebrow">Bloque 01 &middot; Fundamentos</p>
+      <h2>La IA en palabras simples</h2>
+      <p class="lead">Una primera mirada, sin tecnicismos. Elige un recurso para empezar, lee la micro-lectura y revisa los conceptos clave. Ten un cuaderno al lado y anota una frase: <em>&ldquo;Lo que m&aacute;s me sorprendi&oacute; fue&hellip;&rdquo;.</em></p>
+    </div>
+
+    <div class="grid grid-2">
+      <article class="card resource">
+        <span class="tag">Curso gratuito &middot; base</span>
+        <h3>Elementos de IA (Elements of AI)</h3>
+        <p class="meta">Universidad de Helsinki + MinnaLearn/Reaktor. En espa&ntilde;ol, sin matem&aacute;ticas ni programaci&oacute;n. Para esta semana basta el <b>Cap&iacute;tulo 1: &ldquo;&iquest;Qu&eacute; es la IA?&rdquo;</b> (30&ndash;60 min).</p>
+        <a class="pill-link" href="https://www.elementsofai.com/es" target="_blank" rel="noopener">elementsofai.com/es &nearr;</a>
+        <p class="meta" style="margin-top:10px;font-style:italic;">Dato bonito: cerca del 40% de quienes lo toman son mujeres.</p>
+      </article>
+
+      <article class="card resource alt">
+        <span class="tag">Video en espa&ntilde;ol &middot; &aacute;gil</span>
+        <h3>Canal DotCSV (Carlos Santana)</h3>
+        <p class="meta">Una de las voces de referencia en divulgaci&oacute;n de IA en espa&ntilde;ol. Busca sus videos introductorios sobre <b>qu&eacute; es el Machine Learning</b> y <b>c&oacute;mo funciona ChatGPT</b>.</p>
+        <a class="pill-link" href="https://www.youtube.com/@DotCSV" target="_blank" rel="noopener">YouTube &middot; DotCSV &nearr;</a>
+        <p class="meta" style="margin-top:10px;font-style:italic;">Alternativa corta: la playlist &ldquo;Inteligencia Artificial Explicada F&aacute;cil&rdquo;.</p>
+      </article>
+    </div>
+
+    <article class="reading">
+      <p class="eyebrow">Micro-lectura &middot; 1 p&aacute;gina</p>
+      <p class="hand">El amigo que se ley&oacute; toda la biblioteca</p>
+      <p>Imagina que tienes un amigo con una memoria extraordinaria. No ha vivido cada historia que cuenta, pero <b>ha le&iacute;do pr&aacute;cticamente todo</b>: millones de libros, art&iacute;culos, conversaciones y recetas. Tantos, que desarroll&oacute; una habilidad muy particular: cuando empiezas una frase, &eacute;l puede <b>predecir cu&aacute;l es la palabra que tiene m&aacute;s sentido a continuaci&oacute;n.</b></p>
+      <p>T&uacute; le dices <em>&ldquo;Para hacer una buena tortilla, lo primero es batir los&hellip;&rdquo;</em> y, sin pensarlo, completa: <em>&ldquo;huevos&rdquo;</em>. No porque entienda el hambre o haya cocinado nunca, sino porque ha visto esa secuencia tantas veces que sabe qu&eacute; patr&oacute;n viene despu&eacute;s.</p>
+      <p><b>Eso, en esencia, es un Modelo de Lenguaje (LLM):</b> un sistema que predice la siguiente palabra m&aacute;s probable, una y otra vez, hasta formar respuestas completas que suenan naturales. Es <b>el mismo principio que el texto predictivo de tu celular</b>, solo que entrenado a una escala tan masiva que ya no completa palabras sueltas, sino ideas y argumentos enteros.</p>
+
+      <h4>Tres cosas que conviene recordar desde el d&iacute;a uno:</h4>
+      <div class="keypoints">
+        <div class="keypoint"><span class="n">01</span><strong>No &ldquo;sabe&rdquo;, predice.</strong><span>Es brillante encontrando patrones, pero no tiene experiencias ni conciencia. Es un espejo del conocimiento que ley&oacute;.</span></div>
+        <div class="keypoint"><span class="n">02</span><strong>Puede equivocarse con seguridad.</strong><span>A veces inventa datos que suenan cre&iacute;bles (&ldquo;alucinaci&oacute;n&rdquo;). T&uacute; sigues siendo la experta que valida.</span></div>
+        <div class="keypoint"><span class="n">03</span><strong>Depende de c&oacute;mo le hables.</strong><span>La calidad de lo que recibes depende de tu instrucci&oacute;n. De eso trata el Bloque 3.</span></div>
+      </div>
+
+      <h4>Ocho conceptos que te dan superpoderes:</h4>
+      <div class="concepts">
+        <div class="concept"><span class="cn">01</span><strong>Las mu&ntilde;ecas rusas de la IA</strong><span>IA &rarr; Machine Learning &rarr; Deep Learning &rarr; IA Generativa &rarr; LLM. &ldquo;IA&rdquo; es el paraguas; el LLM es una pieza espec&iacute;fica dentro. No son sin&oacute;nimos.</span></div>
+        <div class="concept"><span class="cn">02</span><strong>Entrenamiento vs. uso</strong><span>El modelo aprendi&oacute; una vez, leyendo mucho. Cuando le hablas no est&aacute; aprendiendo de ti: est&aacute; aplicando lo que ya sabe.</span></div>
+        <div class="concept"><span class="cn">03</span><strong>Tokens</strong><span>La IA no lee palabras, lee pedacitos. Por eso a veces &ldquo;se queda sin espacio&rdquo; en textos muy largos.</span></div>
+        <div class="concept"><span class="cn">04</span><strong>La ventana de contexto</strong><span>Su memoria de trabajo: cuánto puede tener en mente a la vez. En chats largos se satura y empieza a perder el hilo.</span></div>
+        <div class="concept"><span class="cn">05</span><strong>Es probabil&iacute;stica</strong><span>La misma pregunta puede dar respuestas distintas. No es un error: elige lo m&aacute;s probable, no lo &uacute;nico correcto.</span></div>
+        <div class="concept"><span class="cn">06</span><strong>Alucinaciones y sesgo</strong><span>Puede inventar con seguridad y arrastra los sesgos de los datos humanos con que se entren&oacute;. Siempre validas t&uacute;.</span></div>
+        <div class="concept"><span class="cn">07</span><strong>Uso responsable de datos</strong><span>No pegues informaci&oacute;n sensible, personal o confidencial en estas herramientas. Cuidar los datos es parte de saber usarlas.</span></div>
+        <div class="concept"><span class="cn">08</span><strong>Del chatbot al agente</strong><span>Un chatbot responde; un <b>agente</b> act&uacute;a: ejecuta tareas y usa herramientas. Es hacia donde avanza la IA (ej. agentes aut&oacute;nomos como OpenHands, ya para perfiles t&eacute;cnicos).</span></div>
+      </div>
+
+      <p class="takeaway">La idea para llevarte: un LLM no es un or&aacute;culo m&aacute;gico ni una amenaza misteriosa. Es <b>un colaborador incre&iacute;blemente le&iacute;do que necesita buenas instrucciones para darte buenos resultados.</b> T&uacute; diriges. &Eacute;l ejecuta.</p>
+    </article>
+  </section>
+
+  <!-- ============ BLOQUE 2 ============ -->
+  <section class="panel" id="b2" role="tabpanel" aria-labelledby="t-b2" hidden>
+    <div class="section-head">
+      <p class="eyebrow">Bloque 02 &middot; Ecosistema</p>
+      <h2>El Ecosistema de Herramientas</h2>
+      <p class="lead">No necesitas conocerlas todas. Necesitas saber que existe una herramienta para cada tipo de tarea. <em>(Planes gratuitos vigentes a 2026; conviene confirmarlos al registrarte.)</em></p>
+    </div>
+
+    <!-- CLAUDE PROTAGONISTA -->
+    <div class="claude-hero">
+      <p class="eyebrow">Tu campamento base</p>
+      <h3>Claude &mdash; donde se puede hacer casi todo</h3>
+      <p class="intro">Mientras las dem&aacute;s son especialistas (Perplexity investiga, Gamma presenta, Looker grafica), Claude es el entorno donde <b>conversas, analizas documentos largos, escribes, razonas</b> y, sobre todo, <b>construyes</b>. Con <b>Claude Artifacts</b> y <b>Claude Design</b>, una conversaci&oacute;n se convierte en algo real y usable &mdash;documentos, visualizaciones, mini-apps interactivas&mdash; <b>exactamente como este mismo sitio de Semana Cero</b>. No solo le preguntas a la IA: construyes con ella.</p>
+      <div class="claude-tips">
+        <div class="claude-tip"><b>1. Pide algo concreto y construible.</b> En vez de &ldquo;h&aacute;blame de calculadoras&rdquo;, di &ldquo;const&uacute;yeme una calculadora donde meta X y Y y me d&eacute; Z&rdquo;.</div>
+        <div class="claude-tip"><b>2. Deja que lo monte y ajusta hablando.</b> &ldquo;Hazlo m&aacute;s simple&rdquo;, &ldquo;cambia el color&rdquo;, &ldquo;a&ntilde;ade una secci&oacute;n&rdquo;. Lo edita en vivo.</div>
+        <div class="claude-tip"><b>3. Act&iacute;valo una vez.</b> Ajustes &rarr; Capacidades &rarr; activa &ldquo;Code execution and file creation&rdquo; (Artifacts).</div>
+        <div class="claude-tip"><b>4. Public&iacute;calo y comp&aacute;rtelo.</b> Cada Artifact se puede publicar y enviar con un enlace.</div>
+      </div>
+      <div class="claude-links">
+        <a href="https://www.youtube.com/watch?v=YPtZaMmH4MY" target="_blank" rel="noopener">&#9654; Tutorial en espa&ntilde;ol (YouTube)</a>
+        <a class="ghost" href="https://www.xataka.com/basics/artefactos-claude-que-como-usarlos-para-crear-aplicaciones-web-dentro-inteligencia-artificial" target="_blank" rel="noopener">Gu&iacute;a paso a paso (ES)</a>
+      </div>
+      <span class="claude-badge">&#10022; Empieza aqu&iacute; &middot; Versi&oacute;n gratis</span>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filtrar herramientas por categor&iacute;a">
+      <button class="chip" aria-pressed="true"  data-cat="all">Todas</button>
+      <button class="chip" aria-pressed="false" data-cat="Redacci&oacute;n">&#9999;&#65039; Redacci&oacute;n</button>
+      <button class="chip" aria-pressed="false" data-cat="Dise&ntilde;o">&#127912; Dise&ntilde;o</button>
+      <button class="chip" aria-pressed="false" data-cat="Datos">&#128202; Datos</button>
+      <button class="chip" aria-pressed="false" data-cat="Productividad">&#128451;&#65039; Productividad</button>
+      <button class="chip" aria-pressed="false" data-cat="Investigaci&oacute;n">&#128270; Investigaci&oacute;n</button>
+    </div>
+
+    <div class="tools-grid" id="toolsGrid"></div>
+
+    <div class="note-box">
+      <b>&#129514; Explora sin presi&oacute;n.</b> Esta semana solo juega: dale a 2 o 3 herramientas una tarea real y observa qu&eacute; se siente bien. M&aacute;s adelante, en el <b>Cierre</b>, elegir&aacute;s las que de verdad le sirven a tu proyecto. La intuici&oacute;n se construye usando, no leyendo.
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 3 · PROMPTING ============ -->
+  <section class="panel" id="b3" role="tabpanel" aria-labelledby="t-b3" hidden>
+    <div class="section-head">
+      <p class="eyebrow">Bloque 03 &middot; Prompting</p>
+      <h2>El Arte del Prompting</h2>
+      <p class="lead">Un <b>prompt</b> es la instrucci&oacute;n que le das a la IA. Pero un buen prompt no es un truco: es un acto de <b>comunicaci&oacute;n</b> y de <b>dise&ntilde;o instruccional</b>. Est&aacute;s dise&ntilde;ando una instrucci&oacute;n para un colaborador brillante pero literal &mdash; y como en toda buena ense&ntilde;anza, la claridad de tu pensamiento determina la calidad del resultado.</p>
+    </div>
+
+    <div class="prompt-intro">
+      <h3>La verdad liberadora</h3>
+      <p>La IA no es m&aacute;gica, pero tu forma de pedirle s&iacute; puede serlo. Si no puedes explicar lo que quieres de forma simple y clara, la IA llenar&aacute; los vac&iacute;os por ti &mdash; y esos vac&iacute;os producen resultados inconsistentes. Escribir un buen prompt cuesta una reflexi&oacute;n parecida a la de escribir un buen brief de proyecto.</p>
+    </div>
+
+    <!-- MOVIMIENTO 1 -->
+    <div class="mov">
+      <div class="mov-head"><div class="mov-num">1</div><h3>Traduce tu proyecto a un prompt</h3></div>
+      <p>Pensar antes de escribir. La mitad del trabajo ocurre <em>antes</em> de tocar el teclado: saber qu&eacute; necesitas y c&oacute;mo se ve el &ldquo;&eacute;xito&rdquo;.</p>
+      <ul class="principles">
+        <li><b>Define el objetivo y el &eacute;xito.</b> &iquest;Qu&eacute; quieres lograr y c&oacute;mo sabr&aacute;s que qued&oacute; bien?</li>
+        <li><b>Da contexto.</b> Para qui&eacute;n es, con qu&eacute; fin, qu&eacute; restricciones existen.</li>
+        <li><b>Ancla a la realidad.</b> No pidas un documento de 70 p&aacute;ginas de un solo tiro; pide algo que puedas revisar de verdad.</li>
+        <li><b>Define el formato.</b> Lista, tabla, correo, tono, extensi&oacute;n. No dejes que lo adivine.</li>
+        <li><b>Repite lo importante al final.</b> Cierra el prompt recordando la restricci&oacute;n clave (&ldquo;m&aacute;ximo 150 palabras&rdquo;, &ldquo;sin tecnicismos&rdquo;).</li>
+      </ul>
+      <div class="rtcf-note">
+        <b>&iquest;Reci&eacute;n empiezas?</b> Usa la f&oacute;rmula <b>R&middot;T&middot;C&middot;F</b> como rueditas de apoyo para tu primer prompt &mdash; luego la sueltas.
+        <div class="rtcf-mini"><span>&#127917; Rol</span><span>&#127919; Tarea</span><span>&#129517; Contexto</span><span>&#128208; Formato</span></div>
+      </div>
+    </div>
+
+    <!-- MOVIMIENTO 2 -->
+    <div class="mov">
+      <div class="mov-head"><div class="mov-num">2</div><h3>La IA como co-dise&ntilde;adora</h3></div>
+      <p>El salto de nivel: en vez de exigirle la respuesta perfecta de una, conviértela en tu compa&ntilde;era de pensamiento. Copia estas frases tal cual.</p>
+      <div class="tech-grid">
+        <div class="tech"><strong>&#129504; Que te entreviste</strong>Deja que entienda tu objetivo antes de ejecutar.<span class="say">&ldquo;Antes de responder, hazme las preguntas que necesites para entender bien mi objetivo.&rdquo;</span></div>
+        <div class="tech"><strong>&#128221; Meta-prompting</strong>Que escriba el prompt por ti cuando no sabes c&oacute;mo pedir.<span class="say">&ldquo;Escr&iacute;beme el mejor prompt que yo deber&iacute;a usar para lograr esto.&rdquo;</span></div>
+        <div class="tech"><strong>&#128296; Que mejore tu prompt</strong>Pule la instrucci&oacute;n antes de ejecutarla.<span class="say">&ldquo;Mejora este prompt para que sea m&aacute;s claro y completo, y luego ejec&uacute;talo.&rdquo;</span></div>
+        <div class="tech"><strong>&#128269; Auto-reflexi&oacute;n</strong>Una segunda pasada casi siempre mejora el resultado.<span class="say">&ldquo;Revisa tu respuesta: &iquest;est&aacute; completa? &iquest;hay un mejor enfoque? Corr&iacute;gela.&rdquo;</span></div>
+        <div class="tech highlight"><strong>&#128170; Contra el &ldquo;s&iacute; a todo&rdquo;</strong>La IA tiende a darte la raz&oacute;n. P&iacute;dele honestidad. &Uacute;sala como retadora, no como aduladora.<span class="say">&ldquo;Dame tu evaluaci&oacute;n honesta seg&uacute;n el est&aacute;ndar de la industria, aunque contradiga lo que dije.&rdquo;</span></div>
+      </div>
+    </div>
+
+    <!-- MOVIMIENTO 3 -->
+    <div class="mov">
+      <div class="mov-head"><div class="mov-num">3</div><h3>Flujos Multi-IA &middot; Tip Pro</h3></div>
+      <p>Salir del &ldquo;simple chat&rdquo;. Cada modelo tiene fortalezas distintas; orquestar entre ellos supera usar uno solo. Ejemplo de un flujo real:</p>
+      <div class="flow">
+        <div class="flow-step"><span class="fs-role">Investiga</span><strong>Perplexity</strong><span>Reúne datos con fuentes citadas.</span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><span class="fs-role">Co-crea el prompt</span><strong>Gemini / ChatGPT</strong><span>Pule y prueba distintos &aacute;ngulos.</span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><span class="fs-role">Ejecuta y construye</span><strong>Claude</strong><span>Producto final: texto, an&aacute;lisis o Artifact.</span></div>
+      </div>
+      <p style="margin:16px 0 0;color:var(--ink-soft);font-size:.94rem;">Otra jugada poderosa: pedirle a un modelo que <b>critique la respuesta de otro</b>. Ver&aacute;s oportunidades que un solo chat nunca te mostrar&iacute;a.</p>
+    </div>
+
+    <!-- APOYOS + CUIDADOS -->
+    <div class="mov">
+      <div class="mov-head"><div class="mov-num">+</div><h3>Apoyos r&aacute;pidos y cuidados</h3></div>
+      <div class="supports">
+        <span class="sup"><b>Muestra ejemplos:</b> &ldquo;aqu&iacute; tienes 2 ejemplos del estilo que quiero&rdquo;.</span>
+        <span class="sup"><b>Piensa paso a paso:</b> pídele que razone antes de concluir.</span>
+        <span class="sup"><b>Se&ntilde;ales de tono/longitud:</b> &ldquo;c&aacute;lido, 100 palabras, sin vi&ntilde;etas&rdquo;.</span>
+        <span class="sup"><b>Itera siempre:</b> &ldquo;eso no es, intenta otra vez&rdquo; es parte del proceso.</span>
+      </div>
+      <div class="note-box" style="margin-top:18px;">
+        <b>&#9888;&#65039; Dos cuidados:</b> en conversaciones muy largas la IA se satura y empieza a divagar (<b>prompt drift</b>) &mdash; cuando pase, abre un chat nuevo y p&eacute;gale un resumen. Y nunca pegues datos <b>sensibles o confidenciales</b>.
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:6px;">5 ejemplos reales &middot; De instrucci&oacute;n vaga a instrucci&oacute;n bien dise&ntilde;ada</h3>
+    <p style="color:var(--ink-soft);margin-top:0;">Toca cada caso para comparar y ver por qu&eacute; el segundo funciona mejor.</p>
+    <div class="compare" id="compareList"></div>
+
+    <p class="takeaway" style="margin-top:24px;">&#127775; <b>Regla de oro:</b> si el resultado no te gust&oacute;, no es culpa de la IA: es una invitaci&oacute;n a mejorar tu prompt. El primer intento casi nunca es el final.</p>
+  </section>
+
+  <!-- ============ BLOQUE 4 ============ -->
+  <section class="panel" id="b4" role="tabpanel" aria-labelledby="t-b4" hidden>
+    <div class="section-head">
+      <p class="eyebrow">Bloque 04 &middot; Casos de uso</p>
+      <h2>Plantillas por &Aacute;rea de Inter&eacute;s</h2>
+      <p class="lead">Cinco plantillas listas para copiar y adaptar. Reemplaza lo que est&aacute; <b style="color:var(--cta-orange)">[entre corchetes]</b> con tu informaci&oacute;n real. Usa el bot&oacute;n <b>Copiar</b>.</p>
+    </div>
+    <div id="promptList"></div>
+
+    <div class="note-box">
+      <b>&#128161; Tip de oro para las 5:</b> despu&eacute;s de la primera respuesta, escribe <em>&ldquo;hazlo m&aacute;s corto / m&aacute;s c&aacute;lido / m&aacute;s concreto&rdquo;</em>. El verdadero poder no est&aacute; en el primer prompt, sino en la conversaci&oacute;n.
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 5 · RUTA DE APRENDIZAJE ============ -->
+  <section class="panel" id="b5" role="tabpanel" aria-labelledby="t-b5" hidden>
+    <div class="section-head">
+      <p class="eyebrow">Bloque 05 &middot; Ruta de aprendizaje</p>
+      <h2>Recursos para seguir aprendiendo</h2>
+      <p class="lead">Esto <b>no son herramientas</b>: son cursos, videos y gu&iacute;as para aprender. 28 recursos gratuitos, organizados en 3 rutas. Filtra y elige por d&oacute;nde empezar. <em>(&ldquo;Gratis (auditar)&rdquo; = el contenido es gratis; el certificado es opcional y tiene costo.)</em></p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filtrar recursos por ruta">
+      <button class="chip chip-res" aria-pressed="true"  data-sec="all">Todas</button>
+      <button class="chip chip-res" aria-pressed="false" data-sec="IA &amp; Herramientas">&#129302; IA &amp; Herramientas</button>
+      <button class="chip chip-res" aria-pressed="false" data-sec="Fundamentos t&eacute;cnicos">&#128187; Fundamentos t&eacute;cnicos</button>
+      <button class="chip chip-res" aria-pressed="false" data-sec="Habilidades blandas">&#128172; Habilidades blandas</button>
+    </div>
+
+    <div class="res-grid" id="resGrid"></div>
+  </section>
+
+  <!-- ============ BLOQUE 6 · CIERRE ============ -->
+  <section class="panel" id="b6" role="tabpanel" aria-labelledby="t-b6" hidden>
+    <div class="closing-intro">
+      <p class="eyebrow" style="color:var(--br-blue)">Cierre &middot; Tu Pregunta Detonante</p>
+      <h2><span class="hero-egg">&#129370;</span> De la curiosidad a la direcci&oacute;n</h2>
+      <p>Llegaste con curiosidad. Ahora la transformas en direcci&oacute;n. Aqu&iacute; abajo encontrar&aacute;s todo lo que te va a preguntar tu <b>formulario de inicio</b>: l&eacute;elo, prep&aacute;rate con calma y, cuando est&eacute;s lista, d&eacute;jalo registrado. No busques la respuesta &ldquo;correcta&rdquo;, busca <b>tu</b> respuesta.</p>
+    </div>
+
+    <div class="form-guide">
+      <p class="eyebrow">Antes de empezar &middot; 10&ndash;12 min</p>
+      <h3 style="font-size:1.5rem;">Esto es lo que te va a pedir el formulario</h3>
+      <p style="color:var(--ink-soft);max-width:680px;">L&eacute;elo con calma para llegar con tus ideas listas. No hay respuestas correctas: solo <b>las tuyas</b>. Cuando est&eacute;s lista, abre el formulario al final de esta secci&oacute;n.</p>
+
+      <div class="fg-list">
+        <div class="fg-item">
+          <span class="fg-n">01 &middot; Tu exploraci&oacute;n</span>
+          <h4>&#128301; Lo que te sorprendi&oacute;</h4>
+          <p>De todo lo que exploraste, qu&eacute; fue lo que m&aacute;s te emocion&oacute; o te sorprendi&oacute;. Lo que de verdad te hizo decir &ldquo;wow&rdquo;.</p>
+        </div>
+        <div class="fg-item project">
+          <span class="fg-n" style="color:var(--cta-orange)">02 &middot; Tu proyecto</span>
+          <h4>&#129513; El reto que quieres construir</h4>
+          <p>El problema, reto o idea que quieres convertir en tu proyecto. No una tarea diaria: <b>el proyecto en el que vas a trabajar.</b></p>
+        </div>
+        <div class="fg-item project">
+          <span class="fg-n" style="color:var(--cta-orange)">03 &middot; Tu motivaci&oacute;n</span>
+          <h4>&#128293; Por qu&eacute; te importa</h4>
+          <p>Qu&eacute; te mueve a construir justo esto. El &ldquo;porqu&eacute;&rdquo; personal le permite a tu mentor acompa&ntilde;arte mucho mejor.</p>
+        </div>
+        <div class="fg-item">
+          <span class="fg-n">04 &middot; Tu pregunta detonante</span>
+          <h4>&#10067; La pregunta que te enciende</h4>
+          <p>Si pudieras salir de la Semana 1 sabiendo responder UNA sola pregunta, cu&aacute;l ser&iacute;a.</p>
+        </div>
+        <div class="fg-item">
+          <span class="fg-n">05 &middot; Tus herramientas</span>
+          <h4>&#129520; Las IA que te llamaron la atenci&oacute;n</h4>
+          <p>Escoge del Bloque 2 las herramientas que crees que encajan con tu proyecto, y cuenta <b>por qu&eacute;</b> y para qu&eacute; te servir&iacute;an.</p>
+        </div>
+        <div class="fg-item">
+          <span class="fg-n">06 &middot; Tu disponibilidad</span>
+          <h4>&#128197; Cu&aacute;ndo te queda mejor</h4>
+          <p>D&iacute;as entre semana y franjas de ma&ntilde;ana o tarde para tus sesiones, m&aacute;s tu idioma preferido.</p>
+        </div>
+      </div>
+
+      <div class="formula-static">
+        <span class="lbl">&#127919; Ten lista tu hip&oacute;tesis en una frase</span>
+        <p class="frase"><span class="qmk">&ldquo;</span>Quiero <span class="s">[el QU&Eacute;]</span>, con <span class="s">[el C&Oacute;MO]</span>, para lograr <span class="s">[el PARA QU&Eacute;]</span>.<span class="qmk">&rdquo;</span></p>
+        <p class="ex">Ejemplo: &ldquo;Quiero crear un mini-tablero que muestre el avance de mi equipo, con Claude y Looker Studio, para lograr dejar de armar reportes a mano y tomar mejores decisiones cada semana.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="cta-final">
+      <p class="eyebrow">&Uacute;ltimo paso</p>
+      <h3>Cuando est&eacute;s lista, deja tu huella</h3>
+      <p>Llena tu formulario de inicio. Ah&iacute; quedan tu proyecto, tu hip&oacute;tesis y tus horarios para que tu mentor te conozca antes de la primera sesi&oacute;n.</p>
+      <div class="cta-actions">
+        <a class="btn-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdkyYEi-Z1_KD0BDtzISL6hjI8VnQEaP6tjITdFnHuEBBxo0w/viewform" target="_blank" rel="noopener">&#9999;&#65039; Llenar mi formulario de inicio &rarr;</a>
+        <p class="cta-note">Tardar&aacute;s entre 10 y 12 minutos. Tus respuestas llegan directo al equipo de People Ops.</p>
+      </div>
+    </div>
+
+    <div class="finale">
+      <div class="morph">&#129370; &rarr; &#10024;</div>
+      <p class="hand">Llegas a la Semana 1 no con respuestas, sino con algo m&aacute;s poderoso: una pregunta que es tuya y una idea que quieres construir.</p>
+      <p>Eso no es el final de la Semana Cero. Es el primer paso de tu proyecto.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="spark">HatchWorks AI &times; Atom&aacute; &middot; Una chispa lo cambia todo.</p>
+  <p>Semana Cero &middot; Programa ATOMA</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var TOOLS = [
+    {name:"ChatGPT", cat:"Redacci\u00f3n", best:"Lluvia de ideas, borradores r\u00e1pidos y asistente todoterreno.", free:true},
+    {name:"Grammarly", cat:"Redacci\u00f3n", best:"Pulir gram\u00e1tica, tono y estilo de algo que ya escribiste.", free:true},
+    {name:"Canva (Magic Studio)", cat:"Dise\u00f1o", best:"Dise\u00f1o r\u00e1pido sin ser dise\u00f1adora: posts, presentaciones y piezas visuales.", free:true},
+    {name:"Gamma", cat:"Dise\u00f1o", best:"Crea presentaciones, documentos y webs desde un prompt: ideal para presentar tu proyecto sin saber dise\u00f1ar. Plan gratis con ~400 cr\u00e9ditos (unas 10 presentaciones) y exporta a PDF, PowerPoint y Google Slides.", free:true},
+    {name:"Google Looker Studio", cat:"Datos", best:"Tableros y visualizaci\u00f3n conectados a Sheets, Analytics y BigQuery.", free:true},
+    {name:"Microsoft Power BI Desktop", cat:"Datos", best:"Anal\u00edtica completa con preguntas en lenguaje natural; ideal si usas Microsoft 365.", free:true},
+    {name:"Notion AI", cat:"Productividad", best:"Organizar notas, documentos y bases de conocimiento en un solo lugar.", free:true},
+    {name:"Gemini en Google Workspace", cat:"Productividad", best:"La IA de Google dentro de Gmail, Docs y Sheets: redacta, resume y organiza sin salir de tus herramientas de siempre.", free:true},
+    {name:"Microsoft Copilot", cat:"Productividad", best:"La IA de Microsoft dentro de Word, Excel y Outlook: acelera documentos, hojas de c\u00e1lculo y correos.", free:true},
+    {name:"Perplexity AI", cat:"Investigaci\u00f3n", best:"Respuestas de la web con fuentes citadas: buscar y verificar.", free:true},
+    {name:"NotebookLM", cat:"Investigaci\u00f3n", best:"Subes tus propios PDFs y notas: la IA los resume, conecta y explica.", free:true}
+  ];
+
+  var CASES = [
+    {n:"01", title:"Escribir un correo",
+      before:"Escribe un correo para pedir una reuni\u00f3n.",
+      after:"Act\u00faa como una profesional de tecnolog\u00eda. Escribe un correo breve y cordial para pedirle a mi l\u00edder una reuni\u00f3n de 30 minutos esta semana para revisar mi proyecto. Tono cercano pero profesional, m\u00e1ximo 6 l\u00edneas.",
+      why:"Define rol, prop\u00f3sito, duraci\u00f3n, tono y extensi\u00f3n. La IA ya no adivina."},
+    {n:"02", title:"Explicar un concepto",
+      before:"Expl\u00edcame qu\u00e9 es una API.",
+      after:"Expl\u00edcame qu\u00e9 es una API como si yo tuviera conocimientos b\u00e1sicos de tecnolog\u00eda, usando una analog\u00eda cotidiana y en menos de 100 palabras.",
+      why:"Fija el nivel de la audiencia, el recurso pedag\u00f3gico (analog\u00eda) y el l\u00edmite de extensi\u00f3n."},
+    {n:"03", title:"Generar ideas",
+      before:"Dame ideas para un post.",
+      after:"Dame 5 ideas de posts de LinkedIn para una mujer que est\u00e1 aprendiendo IA y quiere mostrar su proceso. Cada idea con un titular llamativo y una frase de gancho. Tono aut\u00e9ntico, nada corporativo.",
+      why:"Acota cantidad, audiencia, \u00e1ngulo, estructura y tono."},
+    {n:"04", title:"Resumir informaci\u00f3n",
+      before:"Resume este texto.",
+      after:"Resume este texto en 3 vi\u00f1etas con las ideas clave y agrega al final una sola frase con la conclusi\u00f3n principal. Que cualquier persona lo entienda sin leer el original.",
+      why:"Especifica formato exacto y un objetivo de comprensi\u00f3n."},
+    {n:"05", title:"Tomar una decisi\u00f3n",
+      before:"\u00bfQu\u00e9 herramienta me conviene para mi presentaci\u00f3n?",
+      after:"Soy principiante, no tengo presupuesto y necesito armar la presentaci\u00f3n de mi proyecto sin saber dise\u00f1o. Comp\u00e1rame Canva y Gamma en una tabla de 3 columnas: para qu\u00e9 es mejor cada una, curva de aprendizaje y qu\u00e9 incluye su versi\u00f3n gratis. Termina con una recomendaci\u00f3n para mi caso.",
+      why:"Entrega contexto personal (perfil, presupuesto, necesidad) y pide un formato accionable con recomendaci\u00f3n."}
+  ];
+
+  var PROMPTS = [
+    {ico:"\ud83c\udfa8", title:"Dise\u00f1o",
+      body:'Act\u00faa como director de arte. Necesito ideas para |una pieza: post / banner / portada| sobre |tema|. Propon 3 conceptos visuales distintos. Para cada uno describe: paleta de colores, estilo, tipo de imagen y mensaje principal. Mi marca es |moderna / c\u00e1lida / minimalista| y el p\u00fablico es |descr\u00edbelo|.'},
+    {ico:"\ud83d\udce3", title:"Comunicaci\u00f3n / Marketing",
+      body:'Act\u00faa como estratega de marketing. Crea |3 versiones| de un mensaje para |canal: Instagram / correo / LinkedIn| que promueva |producto / idea|. Objetivo: |informar / inscribir / generar inter\u00e9s|. Tono: |aut\u00e9ntico y cercano|. Cada versi\u00f3n con titular + cuerpo breve + llamado a la acci\u00f3n.'},
+    {ico:"\ud83d\udcca", title:"Datos / An\u00e1lisis",
+      body:'Te voy a compartir una tabla de datos sobre |tema|. Quiero que: 1) identifiques las 3 tendencias m\u00e1s importantes, 2) me digas qu\u00e9 dato me deber\u00eda preocupar o sorprender, y 3) propongas una gr\u00e1fica que represente mejor el hallazgo principal. Expl\u00edcamelo en lenguaje sencillo, sin tecnicismos.'},
+    {ico:"\ud83d\udcc5", title:"Project Management",
+      body:'Act\u00faa como project manager. Ay\u00fadame a planear |proyecto| que debo entregar el |fecha|. Div\u00eddelo en fases con tareas concretas, estima tiempos realistas y se\u00f1ala los 2 riesgos m\u00e1s probables con una forma de prevenir cada uno. Devu\u00e9lvelo como una checklist ordenada por semanas.'},
+    {ico:"\u270d\ufe0f", title:"Escritura de Contenido / Copys",
+      body:'Act\u00faa como copywriter. Escribe |un texto: bio / descripci\u00f3n / anuncio| para |prop\u00f3sito| dirigido a |audiencia|. Que tenga |tono|, m\u00e1ximo |X palabras|, y empiece con una frase que enganche. Dame 2 versiones: una m\u00e1s emocional y otra m\u00e1s directa.'}
+  ];
+
+  var RESOURCES = [
+    {sec:"IA & Herramientas", name:"Elementos de IA (Elements of AI)", plat:"U. de Helsinki + MinnaLearn", url:"https://www.elementsofai.com/es", lang:"ES (subt\u00edtulos)", price:"Gratis + certificado", why:"Explica qu\u00e9 es (y qu\u00e9 no es) la IA sin matem\u00e1ticas ni c\u00f3digo: el punto de partida ideal."},
+    {sec:"IA & Herramientas", name:"Google Machine Learning Crash Course", plat:"Google for Developers", url:"https://developers.google.com/machine-learning/crash-course", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Introducci\u00f3n pr\u00e1ctica al machine learning, bien secuenciada por ingenieros de Google."},
+    {sec:"IA & Herramientas", name:"Introducci\u00f3n a Claude", plat:"Anthropic", url:"https://www.anthropic.com/claude", lang:"EN", price:"Gratis", why:"Aprende a trabajar con un asistente de IA real: la herramienta central del d\u00eda a d\u00eda."},
+    {sec:"IA & Herramientas", name:"Gu\u00eda de ChatGPT", plat:"OpenAI", url:"https://openai.com/chatgpt/", lang:"EN", price:"Gratis", why:"Primer contacto guiado con IA generativa para tareas cotidianas, sin requisitos previos."},
+    {sec:"IA & Herramientas", name:"Cursor para principiantes", plat:"YouTube \u00b7 editor con IA", url:"https://www.youtube.com/results?search_query=Cursor+for+Beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"C\u00f3mo construir software asistido por IA desde el primer d\u00eda, sin experiencia previa."},
+    {sec:"IA & Herramientas", name:"Make \u2014 Learning Center", plat:"make.com \u00b7 automatizaci\u00f3n no-code", url:"https://www.make.com/en/help/tutorials", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Automatizar flujos sin programar demuestra resultados tangibles r\u00e1pido."},
+    {sec:"IA & Herramientas", name:"Zapier 101", plat:"zapier.com \u00b7 automatizaci\u00f3n no-code", url:"https://zapier.com/learn/getting-started-guide/", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Conecta apps y crea automatizaciones \u00fatiles en minutos; ideal para primeros logros visibles."},
+    {sec:"IA & Herramientas", name:"n8n \u2014 Video Courses & Docs", plat:"docs.n8n.io \u00b7 open-source", url:"https://docs.n8n.io/video-courses/", lang:"EN", price:"Gratis", why:"Automatizaci\u00f3n open-source que ense\u00f1a c\u00f3mo se mueve el trabajo entre pasos y sistemas."},
+    {sec:"IA & Herramientas", name:"Google AI Essentials", plat:"Coursera (Google)", url:"https://www.coursera.org/learn/google-ai-essentials", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Curso corto para no t\u00e9cnicos sobre c\u00f3mo aplicar IA al trabajo real; excelente segundo paso."},
+
+    {sec:"Fundamentos t\u00e9cnicos", name:"JavaScript Algorithms & Data Structures", plat:"freeCodeCamp", url:"https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/", lang:"EN (plataforma tambi\u00e9n en ES)", price:"Gratis", why:"Se programa desde la primera lecci\u00f3n: base s\u00f3lida sin licencias ni software de pago."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"CS50: Introduction to Computer Science", plat:"Harvard University", url:"https://cs50.harvard.edu/", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"La mejor base conceptual gratuita; hace accesible lo complejo para principiantes."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"Python for Everybody", plat:"Coursera (U. de Michigan)", url:"https://www.coursera.org/specializations/python", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Python desde cero, sin requisitos: el lenguaje m\u00e1s amable para el primer contacto con c\u00f3digo."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"HTML para principiantes", plat:"YouTube \u00b7 desarrollo web", url:"https://www.youtube.com/results?search_query=HTML+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Primer ladrillo de la web; resultados visibles en el navegador desde el minuto uno."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"CSS para principiantes", plat:"YouTube \u00b7 desarrollo web", url:"https://www.youtube.com/results?search_query=CSS+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Da estilo y dise\u00f1o a lo que se construye; complemento directo de HTML para el portafolio."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"TypeScript para principiantes", plat:"YouTube \u00b7 lenguaje", url:"https://www.youtube.com/results?search_query=TypeScript+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Introduce buenas pr\u00e1cticas de tipado sobre JavaScript, est\u00e1ndar en proyectos modernos."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"ReactJS para principiantes", plat:"YouTube \u00b7 framework front-end", url:"https://www.youtube.com/results?search_query=ReactJS+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Permite crear interfaces interactivas reales; ideal para un proyecto demostrable."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"Node.js para principiantes", plat:"YouTube \u00b7 back-end", url:"https://www.youtube.com/results?search_query=NodeJs+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Primer paso al back-end con JavaScript; conecta el front con datos y l\u00f3gica."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"Git \u2014 Introducci\u00f3n", plat:"YouTube \u00b7 control de versiones", url:"https://www.youtube.com/results?search_query=Git+introduction+tutorial+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Habilidad esencial: versionar y respaldar el trabajo desde el inicio del proyecto."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"Docker para principiantes", plat:"YouTube \u00b7 DevOps", url:"https://www.youtube.com/results?search_query=Docker+for+beginners", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Introduce contenedores de forma amable; \u00fatil para entender c\u00f3mo se despliega software."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"\u00bfQu\u00e9 es Scrum? (6 min)", plat:"YouTube \u00b7 metodolog\u00eda \u00e1gil", url:"https://www.youtube.com/results?search_query=What+is+Scrum", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Explica en 6 minutos c\u00f3mo trabajan los equipos \u00e1giles: contexto clave para colaborar."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"freeCodeCamp en Espa\u00f1ol", plat:"freecodecamp.org/espanol", url:"https://www.freecodecamp.org/espanol/", lang:"Espa\u00f1ol nativo", price:"Gratis", why:"Cursos y proyectos en espa\u00f1ol nativo: baja la barrera de idioma para el talento local."},
+    {sec:"Fundamentos t\u00e9cnicos", name:"The Odin Project", plat:"theodinproject.com \u00b7 roadmap full-stack", url:"https://www.theodinproject.com/", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Ruta guiada de principiante a full-stack, aprender haciendo, 100% gratis y basada en proyectos."},
+
+    {sec:"Habilidades blandas", name:"Tu marca personal & comunicaci\u00f3n profesional", plat:"Coursera (Georgia Tech)", url:"https://www.coursera.org/learn/communication-skills", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Aprendes a articular qui\u00e9n eres y qu\u00e9 aportas: la base para ganar presencia y voz propia."},
+    {sec:"Habilidades blandas", name:"Storytelling: presenta tus ideas con impacto", plat:"Coursera", url:"https://www.coursera.org/learn/presentation-skills-speechwriting-slides-delivery", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Estructura discurso, diapositivas y entrega para contar tu historia y preparar el pitch final."},
+    {sec:"Habilidades blandas", name:"C\u00f3mo contar historias que conectan", plat:"edX", url:"https://www.edx.org/learn/storytelling", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Convierte datos e ideas en relatos memorables para reuniones, entrevistas y presentaciones."},
+    {sec:"Habilidades blandas", name:"S\u00edndrome del impostor: reconócelo y sup\u00e9ralo", plat:"TED-Ed (5 min)", url:"https://ed.ted.com/lessons/what-is-imposter-syndrome-and-how-can-you-combat-it-elizabeth-cox", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis", why:"Nombra esa voz de \u201cno merezco estar aqu\u00ed\u201d y da herramientas concretas para recuperar confianza."},
+    {sec:"Habilidades blandas", name:"Conversaciones dif\u00edciles y negociaci\u00f3n", plat:"Coursera (U. de Michigan)", url:"https://www.coursera.org/learn/negociacion/", lang:"Espa\u00f1ol nativo", price:"Gratis (auditar)", why:"Ense\u00f1a a expresar desacuerdos y llegar a acuerdos con calma; totalmente en espa\u00f1ol."},
+    {sec:"Habilidades blandas", name:"Prep\u00e1rate para tu entrevista", plat:"edX", url:"https://www.edx.org/learn/interview", lang:"EN \u00b7 subt\u00edtulos ES", price:"Gratis (auditar)", why:"Pr\u00e1ctica de preguntas frecuentes, m\u00e9todo STAR y comunicaci\u00f3n para llegar segura a la entrevista."}
+  ];
+
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  /* TABS */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  function selectTab(tab){
+    tabs.forEach(function(t){t.setAttribute('aria-selected', t===tab ? 'true':'false');});
+    panels.forEach(function(p){
+      var on = p.id === tab.getAttribute('aria-controls');
+      p.classList.toggle('active', on);
+      if(on){p.removeAttribute('hidden');} else {p.setAttribute('hidden','');}
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){selectTab(tab);});
+    tab.addEventListener('keydown', function(e){
+      var dir = e.key==='ArrowRight'?1 : e.key==='ArrowLeft'?-1 : 0;
+      if(dir){e.preventDefault();var ni=(i+dir+tabs.length)%tabs.length;tabs[ni].focus();selectTab(tabs[ni]);}
+    });
+  });
+
+  /* TOOLS */
+  var grid = document.getElementById('toolsGrid');
+  function renderTools(cat){
+    grid.innerHTML = '';
+    TOOLS.filter(function(t){return cat==='all'||t.cat===cat;}).forEach(function(t){
+      var el = document.createElement('article');
+      el.className = 'tool';
+      el.innerHTML =
+        '<div class="tool-top"><h3>'+esc(t.name)+'</h3><span class="cat-tag">'+t.cat+'</span></div>'+
+        '<p class="best">'+esc(t.best)+'</p>'+
+        (t.free?'<span class="free-badge">\u2713 Versi\u00f3n gratis</span>':'');
+      grid.appendChild(el);
+    });
+  }
+  renderTools('all');
+  Array.prototype.slice.call(document.querySelectorAll('.chip:not(.chip-res)')).forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.chip:not(.chip-res)').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      c.setAttribute('aria-pressed','true');
+      renderTools(c.getAttribute('data-cat'));
+    });
+  });
+
+  /* RESOURCES */
+  var resGrid = document.getElementById('resGrid');
+  function renderRes(sec){
+    resGrid.innerHTML = '';
+    RESOURCES.filter(function(r){return sec==='all'||r.sec===sec;}).forEach(function(r){
+      var el = document.createElement('article');
+      el.className = 'res';
+      el.innerHTML =
+        '<span class="sec-tag">'+esc(r.sec)+'</span>'+
+        '<h3>'+esc(r.name)+'</h3>'+
+        '<p class="plat">'+esc(r.plat)+'</p>'+
+        '<p class="why">'+esc(r.why)+'</p>'+
+        '<div class="res-meta"><span class="lang">'+esc(r.lang)+'</span><span class="price">'+esc(r.price)+'</span></div>'+
+        '<a class="go" href="'+encodeURI(r.url)+'" target="_blank" rel="noopener">Abrir recurso \u2197</a>';
+      resGrid.appendChild(el);
+    });
+  }
+  renderRes('all');
+  Array.prototype.slice.call(document.querySelectorAll('.chip-res')).forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.chip-res').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      c.setAttribute('aria-pressed','true');
+      renderRes(c.getAttribute('data-sec'));
+    });
+  });
+
+  /* BEFORE / AFTER */
+  var compare = document.getElementById('compareList');
+  CASES.forEach(function(c, idx){
+    var ba = document.createElement('div');
+    ba.className = 'ba' + (idx===0?' open':'');
+    ba.innerHTML =
+      '<button class="ba-head" aria-expanded="'+(idx===0)+'"><span><span class="case-n">'+c.n+'</span>'+esc(c.title)+'</span><span class="chev">\u25be</span></button>'+
+      '<div class="ba-body">'+
+        '<div class="ba-cols">'+
+          '<div class="col-before"><span class="col-label">\u274c Antes \u00b7 vago</span>"'+esc(c.before)+'"</div>'+
+          '<div class="col-after"><span class="col-label">\u2705 Despu\u00e9s \u00b7 bien dise\u00f1ado</span>"'+esc(c.after)+'"</div>'+
+        '</div>'+
+        '<p class="why"><b>\ud83d\udd11 Por qu\u00e9 funciona:</b> '+esc(c.why)+'</p>'+
+      '</div>';
+    var head = ba.querySelector('.ba-head');
+    head.addEventListener('click', function(){
+      var open = ba.classList.toggle('open');
+      head.setAttribute('aria-expanded', open);
+    });
+    compare.appendChild(ba);
+  });
+
+  /* PROMPT TEMPLATES + COPY */
+  var pl = document.getElementById('promptList');
+  PROMPTS.forEach(function(p, idx){
+    var html = esc(p.body).split('|').map(function(seg, i){
+      return i % 2 === 1 ? '<span class="ph">['+seg+']</span>' : seg;
+    }).join('');
+    var card = document.createElement('article');
+    card.className = 'card prompt-card';
+    card.innerHTML =
+      '<h3><span class="ico">'+p.ico+'</span>'+(idx+1)+'. '+esc(p.title)+'</h3>'+
+      '<div class="code"><button class="copy" type="button">Copiar</button><code>'+html+'</code></div>';
+    var btn = card.querySelector('.copy');
+    btn.addEventListener('click', function(){
+      var copyText = p.body.split('|').map(function(seg,i){return i%2===1?'['+seg+']':seg;}).join('');
+      copyToClipboard(copyText, btn, 'Copiar');
+    });
+    pl.appendChild(card);
+  });
+
+  function copyToClipboard(text, btn, label){
+    var done = function(){
+      btn.textContent = '\u2713 Copiado';
+      btn.classList.add('done');
+      setTimeout(function(){btn.textContent = label; btn.classList.remove('done');}, 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){fallbackCopy(text);done();});
+    } else { fallbackCopy(text); done(); }
+  }
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+  }
+
+})();
+</script>
+</body>
+</html>
